@@ -79,7 +79,7 @@ In _Azure_ you will find Microhacks for all Azure services, best practices imple
 
 In _M365_ you will find Microhacks for M365 services, best practices implementations and concrete implementations. Very exciting are integrations of Power Plattform and Azure MicroHacks, which allow developers and citizen developers to gain deep-dive hands-on experience.
 
-[Click here to jump directly to the Overall M365 MicroHacks](./04-Microsoft-365/)
+   [Click here to jump directly to the Overall M365 MicroHacks](./04-Microsoft-365/)
 
 ## 99 - MicroHack-Template
 
