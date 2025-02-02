@@ -20,7 +20,7 @@ on:
 env:
   TF_LOG: ${{ secrets.TF_LOG != '' && secrets.TF_LOG || 'INFO' }}                                                     #"INFO"
   AZ_LOCATION: ${{ secrets.AZ_LOCATION != '' && secrets.AZ_LOCATION || 'germanywestcentral' }}                             #"swedencentral" # can be parameterized
-  AZ_RG_BASENAME: ${{ secrets.AZ_RG_BASENAME != '' && secrets.AZ_RG_BASENAME || 'rg-mh-oracle2' }}  
+  AZ_RG_BASENAME: ${{ secrets.AZ_RG_BASENAME != '' && secrets.AZ_RG_BASENAME || 'rg-mh-oracle' }}  
   VM_PRIMARY_NAME: ${{ secrets.VM_PRIMARY_NAME != '' && secrets.VM_PRIMARY_NAME || 'vm-primary-0' }}                  # can be parameterized
   VM_SECONDARY_NAME: ${{ secrets.VM_SECONDARY_NAME != '' && secrets.VM_SECONDARY_NAME || 'vm-secondary-0' }}          # can be parameterized
   ORCL_DB_NAME: ${{ secrets.ORCL_DB_NAME != '' && secrets.ORCL_DB_NAME || 'ORCL' }}                                   #"ORCL" # can be parameterized
@@ -39,7 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: test-deploy
     strategy:
-      fail-fast: false
+      matrix:
+        resource_group: [rg-mh-oracle-1, rg-mh-oracle-2]
   
     defaults:
       run:
@@ -85,12 +86,12 @@ jobs:
         echo "currentDate=$(date)" >> $GITHUB_ENV
         echo "currentDate=${{env.currentDate}}"
 
-      # Generate random string for suffix
-    - name: 🔎 Generate Random String for Resource Group Name
-      id: resourcegroup-generator
-      run: echo random=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 8; echo) >> $GITHUB_ENV
-    - run: echo ResourceGroupName=${{env.AZ_RG_BASENAME}}-${{env.random}} >> $GITHUB_ENV 
-    - run: echo ${{env.ResourceGroupName}}
+    #   # Generate random string for suffix
+    # - name: 🔎 Generate Random String for Resource Group Name
+    #   id: resourcegroup-generator
+    #   run: echo random=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 8; echo) >> $GITHUB_ENV
+    # - run: echo ResourceGroupName=${{env.AZ_RG_BASENAME}}-${{ matrix.resource_group }}-${{env.random}} >> $GITHUB_ENV 
+    # - run: echo ${{env.ResourceGroupName}}
     
     #Login to Azure
     # Check https://github.com/Azure/login?tab=readme-ov-file#login-with-openid-connect-oidc-recommended
@@ -105,7 +106,7 @@ jobs:
       run: |
         cat > terraform.tfvars <<EOF
         location = "${{env.AZ_LOCATION}}"
-        resourcegroup_name = "${{env.ResourceGroupName}}"
+        resourcegroup_name = "${{ matrix.resource_group }}"
         resourcegroup_tags = {
           "environment" = "dev"
           "project"     = "oracle"
@@ -127,7 +128,7 @@ jobs:
     - name: 📦 Terraform Init
       id: init
       env:
-        RESOURCE_GROUP: ${{ env.ResourceGroupName }}
+        RESOURCE_GROUP: ${{ matrix.resource_group }}
       run: terraform init
 
 
@@ -143,7 +144,7 @@ jobs:
     - name: 💻 Terraform Plan
       id: plan
       continue-on-error: true
-      run: terraform plan -no-color
+      run: terraform plan  -var "resourcegroup_name=${{ env.ResourceGroupName }}" -no-color
 
 
     - name: "Add a comment to pull requests with plan resutls"
@@ -189,7 +190,7 @@ jobs:
 
 
     outputs:
-      ResourceGroupName: ${{ env.ResourceGroupName }}
+      ResourceGroupName: ${{ matrix.resource_group }}
       # VM_Public_IP_Address: ${{ env.vm_public_ip_address }}
 
 #
@@ -246,7 +247,7 @@ jobs:
 #         run: echo "endTimeUtc=$(date -d '+2 hour' '+%FT%T')" >> $GITHUB_ENV
 #       - run: echo "endTimeUtc=${{env.endTimeUtc}}"
 #       - run: echo "ResourceGroupName=${{needs.terraform.outputs.ResourceGroupName}}" >> $GITHUB_ENV
-#       - run: echo "ResourceGroupName=${{env.ResourceGroupName}}"
+#       - run: echo "ResourceGroupName=${{ matrix.resource_group }}"
       
 #       - name: 🔑 Login via Az Module
 #         uses: azure/login@v1
