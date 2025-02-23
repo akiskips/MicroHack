@@ -51,21 +51,21 @@ module "vm_primary" {
     disk_size_gb           = 128
   }
 
-  role_assignments = {
-    role_assignment_1 = {
-      role_definition_id_or_name       = "Virtual Machine Contributor"
-      principal_id                     = data.azurerm_client_config.current.object_id
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments = {
+  #   role_assignment_1 = {
+  #     role_definition_id_or_name       = "Virtual Machine Contributor"
+  #     principal_id                     = data.azurerm_client_config.current.object_id
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 
-  role_assignments_nic = {
-    role_assignment_1 = {
-      role_definition_id_or_name       = "Contributor"
-      principal_id                     = data.azurerm_client_config.current.object_id
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments_nic = {
+  #   role_assignment_1 = {
+  #     role_definition_id_or_name       = "Contributor"
+  #     principal_id                     = data.azurerm_client_config.current.object_id
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 
   vm_extensions = {
     azure_monitor_agent = {
@@ -132,13 +132,13 @@ module "vm_secondary" {
     disk_size_gb           = 128
   }
 
-  role_assignments = {
-    role_assignment_1 = {
-      role_definition_id_or_name       = "Virtual Machine Contributor"
-      principal_id                     = data.azurerm_client_config.current.object_id
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments = {
+  #   role_assignment_1 = {
+  #     role_definition_id_or_name       = "Virtual Machine Contributor"
+  #     principal_id                     = data.azurerm_client_config.current.object_id
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 
   vm_extensions = {
     azure_monitor_agent = {
@@ -162,14 +162,7 @@ module "vm_secondary" {
       SETTINGS
     }
   }
-  #ToDo: Pending
-  # role_assignments_nic = {
-  #   role_assignment_1 = {
-  #     role_definition_id_or_name       = "Contributor"
-  #     principal_id                     = data.azurerm_client_config.current.object_id
-  #     skip_service_principal_aad_check = false
-  #   }
-  # }
+
 
   depends_on = [module.network, module.common_infrastructure]
 }
@@ -196,32 +189,32 @@ module "network" {
   #   }
   # }
 
-  role_assignments_pip = {
-    role_assignment_1 = {
-      name                             = "Contributor"
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments_pip = {
+  #   role_assignment_1 = {
+  #     name                             = "Contributor"
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 
-  role_assignments_nsg = {
-    role_assignment_1 = {
-      name                             = "Contributor"
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments_nsg = {
+  #   role_assignment_1 = {
+  #     name                             = "Contributor"
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 
-  role_assignments_vnet = {
-    role_assignment_1 = {
-      name                             = "Contributor"
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments_vnet = {
+  #   role_assignment_1 = {
+  #     name                             = "Contributor"
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 
-  role_assignments_subnet = {
-    role_assignment_1 = {
-      name                             = "Contributor"
-      skip_service_principal_aad_check = false
-    }
+  # role_assignments_subnet = {
+  #   role_assignment_1 = {
+  #     name                             = "Contributor"
+  #     skip_service_principal_aad_check = false
+  #   }
   }
 }
 
@@ -241,12 +234,12 @@ module "storage_primary" {
   }
   availability_zone = module.vm_primary.availability_zone
 
-  role_assignments = {
-    role_assignment_1 = {
-      name                             = "Contributor"
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments = {
+  #   role_assignment_1 = {
+  #     name                             = "Contributor"
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 }
 
 module "storage_secondary" {
@@ -264,12 +257,12 @@ module "storage_secondary" {
   }
   availability_zone = module.vm_secondary.availability_zone
 
-  role_assignments = {
-    role_assignment_1 = {
-      name                             = "Contributor"
-      skip_service_principal_aad_check = false
-    }
-  }
+  # role_assignments = {
+  #   role_assignment_1 = {
+  #     name                             = "Contributor"
+  #     skip_service_principal_aad_check = false
+  #   }
+  # }
 }
 
 
