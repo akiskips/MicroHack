@@ -126,3 +126,19 @@ variable "tags" {
   description = "Tags to be added to the resources"
   default     = {}
 }
+
+variable "network_security_group_rules" {
+  description = "List of NSG rules for the network"
+  type = list(object({
+    name                       = string
+    priority                   = number
+    direction                  = string
+    access                     = string
+    protocol                   = string
+    source_port_range          = string
+    destination_port_range     = string
+    source_address_prefix      = string
+    destination_address_prefix = string
+  }))
+  default = []
+}

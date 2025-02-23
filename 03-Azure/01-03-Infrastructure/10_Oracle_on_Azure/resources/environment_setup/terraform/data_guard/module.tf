@@ -217,8 +217,8 @@ module "network" {
   #   }
  # }
 
-  nsg_rules = {
-    oracle_1521 = {
+  network_security_group_rules = [
+    {
       name                       = "Allow-Oracle-1521"
       priority                   = 100
       direction                 = "Inbound"
@@ -228,8 +228,8 @@ module "network" {
       destination_port_range    = "1521"
       source_address_prefix     = "*"
       destination_address_prefix = "*"
-    }
-    oracle_1522 = {
+    },
+    {
       name                       = "Allow-Oracle-1522"
       priority                   = 101
       direction                 = "Inbound"
@@ -239,8 +239,8 @@ module "network" {
       destination_port_range    = "1522"
       source_address_prefix     = "*"
       destination_address_prefix = "*"
-    }
-    oracle_1523 = {
+    },
+    {
       name                       = "Allow-Oracle-1523"
       priority                   = 102
       direction                 = "Inbound"
@@ -250,8 +250,8 @@ module "network" {
       destination_port_range    = "1523"
       source_address_prefix     = "*"
       destination_address_prefix = "*"
-    }
-    postgresql = {
+    },
+    {
       name                       = "Allow-PostgreSQL"
       priority                   = 103
       direction                 = "Inbound"
@@ -261,8 +261,8 @@ module "network" {
       destination_port_range    = "5432"
       source_address_prefix     = "*"
       destination_address_prefix = "*"
-    }
-    pgadmin = {
+    },
+    {
       name                       = "Allow-PGAdmin"
       priority                   = 104
       direction                 = "Inbound"
@@ -272,8 +272,8 @@ module "network" {
       destination_port_range    = "5050"
       source_address_prefix     = "*"
       destination_address_prefix = "*"
-    }
-    kafdrop = {
+    },
+    {
       name                       = "Allow-Kafdrop"
       priority                   = 105
       direction                 = "Inbound"
@@ -283,8 +283,8 @@ module "network" {
       destination_port_range    = "9000"
       source_address_prefix     = "*"
       destination_address_prefix = "*"
-    }
-    control_center = {
+    },
+    {
       name                       = "Allow-Control-Center"
       priority                   = 106
       direction                 = "Inbound"
@@ -295,7 +295,8 @@ module "network" {
       source_address_prefix     = "*"
       destination_address_prefix = "*"
     }
-  }
+  ]
+
 
 }
 
