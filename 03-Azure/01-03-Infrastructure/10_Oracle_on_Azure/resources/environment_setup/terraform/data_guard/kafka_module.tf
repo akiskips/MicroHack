@@ -13,7 +13,7 @@ module "vm_kafka" {
 
   vm_source_image_reference     = var.vm_kafka_image_reference
   aad_system_assigned_identity  = true
-  public_ip_address_resource_id = module.network.db_server_puplic_ip_resources[0].id
+  public_ip_address_resource_id = module.network.db_server_puplic_ip_resources[2].id
 
   tags                           = module.common_infrastructure.tags
   db_subnet                      = module.network.db_subnet
@@ -42,7 +42,7 @@ module "vm_kafka" {
 
   vm_source_image_reference     = var.vm_win_image_reference
   aad_system_assigned_identity  = true
-  public_ip_address_resource_id = module.network.db_server_puplic_ip_resources[0].id
+  public_ip_address_resource_id = module.network.db_server_puplic_ip_resources[3].id
 
   tags                           = module.common_infrastructure.tags
   db_subnet                      = module.network.db_subnet
