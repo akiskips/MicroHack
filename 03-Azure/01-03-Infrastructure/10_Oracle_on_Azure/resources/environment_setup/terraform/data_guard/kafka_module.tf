@@ -1,15 +1,5 @@
-data "azurerm_client_config" "current" {}
+data "azurerm_client_config" "current1" {}
 
-module "common_infrastructure" {
-  source = "./modules/common_infrastructure"
-
-  infrastructure                 = local.infrastructure
-  is_data_guard                  = true
-  is_diagnostic_settings_enabled = var.is_diagnostic_settings_enabled
-  diagnostic_target              = var.diagnostic_target
-  tags                           = var.resourcegroup_tags
-
-}
 
 module "vm_kafka" {
   source = "./modules/compute"
