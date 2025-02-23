@@ -5,7 +5,7 @@
 #########################################################################################
 
 resource "azurerm_public_ip" "vm_pip" {
-  count               = var.is_data_guard ? 2 : 1
+  count               = var.is_data_guard ? 4 : 1
   name                = "vmpip-${count.index}"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
@@ -16,7 +16,7 @@ resource "azurerm_public_ip" "vm_pip" {
 }
 
 data "azurerm_public_ip" "vm_pip" {
-  count               = var.is_data_guard ? 2 : 1
+  count               = var.is_data_guard ? 4 : 1
   name                = "vmpip-${count.index}"
   resource_group_name = var.resource_group.name
 
