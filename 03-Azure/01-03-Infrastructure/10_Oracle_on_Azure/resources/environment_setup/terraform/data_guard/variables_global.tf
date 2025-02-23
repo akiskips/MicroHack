@@ -49,8 +49,13 @@ variable "ssh_key" {
 }
 
 variable "vm_sku" {
-  description = "The SKU of the virtual machine"
+  description = "The SKU of the Oracle virtual machine"
   default     = "Standard_E4ds_v5"
+}
+
+variable "vm_kafka_sku" {
+  description = "The SKU of the Kafka virtual machine"
+  default     = "Standard_E8as_v5"
 }
 
 variable "vm_source_image_reference" {
@@ -59,6 +64,27 @@ variable "vm_source_image_reference" {
     publisher = "Oracle"
     offer     = "oracle-database-19-3"
     sku       = "oracle-database-19-0904"
+    version   = "latest"
+  }
+}
+
+
+variable "vm_kafka_image_reference" {
+  description = "The source image reference of the kafka virtual machine"
+  default = {
+    publisher = "Debian"
+    offer     = "debian-12"
+    sku       = "12"
+    version   = "latest"
+  }
+}
+
+variable "vm_win_image_reference" {
+  description = "The source image reference of the Windows 11 Pro virtual machine without built-in license"
+  default = {
+    publisher = "MicrosoftWindowsDesktop"
+    offer     = "windows-11"
+    sku       = "win11-pro"
     version   = "latest"
   }
 }
