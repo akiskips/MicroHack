@@ -58,6 +58,11 @@ variable "vm_kafka_sku" {
   default     = "Standard_E8as_v5"
 }
 
+variable "vm_win_sku" {
+  description = "The SKU of the Kafka virtual machine"
+  default     = "Standard_B4ms"
+}
+
 variable "vm_source_image_reference" {
   description = "The source image reference of the virtual machine"
   default = {

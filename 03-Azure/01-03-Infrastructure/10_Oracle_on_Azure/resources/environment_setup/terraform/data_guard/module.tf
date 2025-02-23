@@ -189,12 +189,12 @@ module "network" {
   #   }
   # }
 
-  # role_assignments_pip = {
-  #   role_assignment_1 = {
-  #     name                             = "Contributor"
-  #     skip_service_principal_aad_check = false
-  #   }
-  # }
+  role_assignments_pip = {
+    role_assignment_1 = {
+      name                             = "Contributor"
+      skip_service_principal_aad_check = false
+    }
+  }
 
   # role_assignments_nsg = {
   #   role_assignment_1 = {
@@ -215,7 +215,7 @@ module "network" {
   #     name                             = "Contributor"
   #     skip_service_principal_aad_check = false
   #   }
-  }
+ # }
 }
 
 
