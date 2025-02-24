@@ -73,8 +73,7 @@ services:
       JVM_OPTS: "-Xms32M -Xmx64M"
     depends_on:
       - kafka
-    networks:
-      - kafka-net
+
 
 
   oracle:

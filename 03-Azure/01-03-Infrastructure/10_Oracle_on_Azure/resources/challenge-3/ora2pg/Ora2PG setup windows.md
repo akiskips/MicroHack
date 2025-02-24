@@ -11,9 +11,12 @@ docker pull georgmoser/ora2pg
 
 3. Create Directory to store the output and configuration persistently
 
-an example:
-c:\tmp\docker\config
-c:\tmp\docker\data
+On Windows:
+    c:\tmp\docker\config
+    c:\tmp\docker\data
+On linux:
+    /challenge3/docker/config
+    /challenge3/docker/data
 
 4. Create a docker network
 docker network create ora2pg-network

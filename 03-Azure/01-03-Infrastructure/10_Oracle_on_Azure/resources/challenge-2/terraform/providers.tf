@@ -3,17 +3,13 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">=3.11.0, <4.0"
+      version = ">=4.19"
     }
-    # azapi = {
-    #   source  = "Azure/azapi"
-    #   version = ">=1.8.0"
-    # }
   }
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
+  #skip_provider_registration = true
   features {
     resource_group {
       prevent_deletion_if_contains_resources = true
@@ -22,8 +18,5 @@ provider "azurerm" {
       delete_os_disk_on_deletion = true
     }
   }
+  subscription_id = "971650f0-3120-4775-a049-67192bff7e56"
 }
-
-# provider "azapi" {
-#   use_oidc = true
-# }

@@ -22,6 +22,17 @@ An alternative to the docker images is Azure Container Apps. Which are not consi
 
 In case data need to be copied on the remote Azure linux vm you the following SCP command can be used. If the server is deploy with an User/Password replace the private key in the command syntax. 
 
+
+## How to login into the Docker hub if required:
+
+~~~bash
+export DOCKER_USERNAME=your-username
+export DOCKER_PASSWORD=your-password
+
+echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
+~~~
+
+
 ~~~bash
 scp -C -i 'privatekey.pem' -r 'path_to_files'  azureuser@48.209.90.102:'path_to_files'
 ~~~

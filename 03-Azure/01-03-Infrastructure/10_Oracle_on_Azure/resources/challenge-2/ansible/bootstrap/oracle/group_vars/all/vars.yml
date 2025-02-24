@@ -36,10 +36,10 @@ systemPassword: Oracle123.?
 dbsnmpPassword: Oracle123.?
 gdbName: ORCL
 sid: ORCL
-redo_log_filepath: /u02/app/oracle/oradata # TODO: adjust to use dedicated redo disk 
+redo_log_filepath: /u02/app/oracle/oradata  
 
 # not needed if using the marketplace image
 # Oracle binaries download information
-storage_account: lzaoratst      # TODO: adjust to environment setup
-storage_container: oracle-bin   # todo: adjust to environment setup
+storage_account: mhorabinstoregwc71438      # adjust to environment setup
+storage_container: oracle-bin               # adjust to environment setup
 storage_blob: LINUX.X64_193000_db_home.zip

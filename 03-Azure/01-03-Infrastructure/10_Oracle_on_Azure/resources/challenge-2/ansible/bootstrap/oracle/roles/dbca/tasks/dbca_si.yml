@@ -13,26 +13,26 @@
       owner: oracle
       group: oinstall
     loop:
-      - /u02/app/oracle/fast_recovery_area/{{ sid }}
+      - /u01/app/oracle/fast_recovery_area/{{ sid }}
 
-  - name: copy response file for silent install
-    template: src=dbca.rsp.j2 dest=/home/{{ oracle_user }}/dbca.rsp
+  # - name: copy response file for silent install
+  #   template: src=dbca.rsp.j2 dest=/home/{{ oracle_user }}/dbca.rsp
 
-  - name: dbca
-    command: bin/dbca -silent -createDatabase -responseFile /home/{{ oracle_user }}/dbca.rsp -templateName {{ templateName }} -sid {{ sid }} -databaseType MULTIPURPOSE -ignorePreReqs
-    ignore_errors: true
-    args:
-      chdir: "{{ oracle_db_home }}"
+  # - name: dbca
+  #   command: bin/dbca -silent -createDatabase -responseFile /home/{{ oracle_user }}/dbca.rsp -templateName {{ templateName }} -sid {{ sid }} -databaseType MULTIPURPOSE -ignorePreReqs
+  #   ignore_errors: true
+  #   args:
+  #     chdir: "{{ oracle_db_home }}"
 
   - name: Configure Oratab
     shell: sed -i 's/:N/:Y/' /etc/oratab
     become: true
     become_user: root
    
-  - name: copy response file for silent install
-    template: src=dbora.j2 dest=/etc/init.d/dbora
-    become: true
-    become_user: root
+  # - name: copy response file for silent install
+  #   template: src=dbora.j2 dest=/etc/init.d/dbora
+  #   become: true
+  #   become_user: root
 
   - name: Chnage ownership of dbora
     file:

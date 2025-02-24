@@ -1,3 +1,41 @@
+# Grant access to the on the demo_schema schema to user demo_schema
+
+1. Connect to the PostgreSQL database as a superuser
+psql -h microhack.postgres.database.azure.com -p 5432 -U postgres postgres
+
+2. Grant usage and create privileges on the schema to the demo_schema user
+GRANT USAGE ON SCHEMA demo_schema TO demo_schema;
+GRANT CREATE ON SCHEMA demo_schema TO demo_schema;
+
+3. Grant all privileges on all tables in the schema to the demo_schema user
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA demo_schema TO demo_schema;
+
+4. Grant all privileges on all sequences in the schema to the demo_schema user
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA demo_schema TO demo_schema;
+
+5. Validate the available tables in the user Schema of PostgreSQL - demo_schema
+
+~~~bash
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'demo_schema'
+  AND table_name = 'ADDRESSES';
+
+SELECT count(*) FROM "demo_schema"."ADDRESSES";
+~~~
+
+6. Enablen of requested Extensions in PostgreSQL Flexible Server
+ 
+   1. Enable the extension in the serverparameter of the PGFS and save the settings.
+
+   2. Create the extension in the database where you want to use it.
+   create extension oracle_fdw;
+   create extension orafce;
+   create extension plpgsql;
+   create extension 
+
+
+
 # How to query remote date between Oracle and Azure PGFS
 
 The following demo will show quickly how to use the PostgreSQL extension ORACLE_FDW to query remote table data from an Oracle database and ingest them into an AZURE PGFS. 
@@ -13,7 +51,8 @@ DROP FOREIGN TABLE oracle_table;
 
 2. Connect via SQLPlus on the oracle database and create in our case a small demo table for the test case.
 ~~~bash
-Create the oracle_table
+## Create the oracle_table
+
 CREATE TABLE oracle_table (
     id NUMBER PRIMARY KEY,
     name VARCHAR2(100),

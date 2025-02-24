@@ -3,13 +3,13 @@ variable "location" {
   type        = string
   # In the microhack subscription there is a deployment limit of 10 cores per VM type per region.
   # Please align with your coach what region you should use to avoid hitting the limit.
-  default     = "swedencentral"  
+  default     = "germanywestcentral"  
 }
 
 variable "resource_group_name" {
   description = "The name of the resource group"
   type        = string
-  default     = "challenge-2" # you should add a unique prefix (i.e. your name) here to avoid name collisions with your co-participants
+  default     = "rg-mh-oracle-chal-2" # you should add a unique prefix (i.e. your name) here to avoid name collisions with your co-participants
 }
 
 variable "vm_size" {
@@ -21,7 +21,7 @@ variable "vm_size" {
 variable "path_to_ssh_key_file" {
   description = "The path to the SSH public key file"
   type        = string
-  default     = "~/.ssh/oracle_vm_rsa_id.pub" # only change this if you used another path or name for your key file.
+  default     = "~/.ssh/mh-oracle-data-guard.pub" # only change this if you used another path or name for your key file.
 }
 
 # change the size, IOPS and throughput of each disk according to the requirements.
@@ -61,6 +61,10 @@ variable "user_assigned_identity" {
     name           = string
     resource_group = string
   })
+  default = {
+    name           = "ora-bin-access"
+    resource_group = "rg-mh-oracle-bin"
+  }
 }
 
 variable "availability_zone" {
@@ -78,7 +82,7 @@ variable "vm_name" {
 variable "vm_username" {
   description = "The admin username for the virtual machine"
   type        = string
-  default     = "adminuser"
+  default     = "oracle"
 }
 
 variable "vm_image" {

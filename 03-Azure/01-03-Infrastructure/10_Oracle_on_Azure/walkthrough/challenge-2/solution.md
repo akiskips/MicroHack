@@ -69,6 +69,8 @@ Here are the detailed steps for the deployment:
 
 1. Create a key pair for SSH login:
 
+TODO: rework to use keys from Keyvault provided by environment setup
+
 ```bash
 ssh-keygen -f ~/.ssh/oracle_vm_rsa_id
 ``` 
@@ -175,8 +177,6 @@ variable "data_disk_config" {
 ```
 Save the changes you made.
 
-#### TODO: Add the fixtures.tfvars containing the User Managed Identity of the storage account.
-
 5. Deploy your Azure resources
 
 ```bash
@@ -192,7 +192,7 @@ Wait for the resources to get created. This may take several minutes. Then, go t
 
 ### **Task 3: Configure Oracle DB single instance via Ansible**
 
-Next, we need to configure the OS of the VM.
+Next, we need to configure the OS of the VM and install the Oracle 19c binaries.
 
 1. Switch to the ansible bootstrap subdirectory for oracle:
 
@@ -204,11 +204,82 @@ Open the inventory file and replace the \<Public IP address of Azure vm created 
 ```bash
 ansible-playbook -i ./inventory playbook.yml
 ```
-The ansible playbook will configure the guest OS of the created VM, download and install oracle 19c binaries and create a database.
+The ansible playbook will configure the guest OS of the created VM, download and install oracle 19c binaries.
+
+TODO: Measure duration without dbca script
 
 **Note: The creation of the database takes pretty long, so the ansible playbook takes ~45min to execute. We recommend to continue with another challenge to use the microhack time most effectively.** 
 
-### Task 4: Setup dataguard to sync source database to the newly created Azure VM 
+### Task 4: Backup onprem database and restore it on Azure VM using RMAN
+
+Connect to the primary onprem Oracle VM and check if there are backups we can use. 
+
+If this is not the case initiate backup.
+
+Copy the backup files to the target VM in Azure.
+
+Login to target VM in Azure, create required folders, make required changes in files and restore database from backup files.
+
+### Task 5: Setup dataguard to sync source database to the newly created Azure VM 
+
+Connect to the VM you created
+```bash
+ssh -i ~/.ssh/oracle_vm_rsa_id adminuser@<replace-with-your-public-ip>
+su oracle
+
+# check whether ORACLE_HOME and ORACLE_SID have been set correctly
+echo $ORACLE_HOME
+echo $ORACLE_SID
+```
+If prompted for passphrase/password type those and confirm with enter.
+
+Create/update the file $ORACLE_HOME/network/admin/tnsnames.ora with your favorite editor - i.e. vim. Because DNS resolution has not been set up in the microhack environment use the public IP address of your primary host instead of the host name.
+```bash
+ORCL =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = <replace-with-public-ip-of-primary-host>)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = ORCL)
+    )
+  )
+ 
+ORCLDG2 =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ora-vm)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SID = ORCLDG2)
+    )
+  )
+```
+
+Create/update the file $ORACLE_HOME/network/admin/listener.ora with your favorite editor - i.e. vim. Verify that your host is called 'ora-vm' or change the value here accordingly. The same is valid for ORACLE_HOME. 
+```bash
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ora-vm)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (GLOBAL_DBNAME = ORCLDG2)
+      (ORACLE_HOME = /u01/app/oracle/product/19.3.0/dbhome_1)
+      (SID_NAME = ORCLDG2)
+    )
+  )
+```
+
+Restart the listener:
+```bash
+lsnrctl stop
+lsnrctl start
+```
 
 ### Task 5 (optional): Set the database hosted in Azure as the new primary 
 

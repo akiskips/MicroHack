@@ -112,6 +112,7 @@ Migrate the Oracle database to an Azure VM
 ### Learning resources
 * [Create an Oracle Database in an Azure VM](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/oracle-database-quick-create)
 * [Configure Oracle Data Guard](https://learn.microsoft.com/en-us/azure/virtual-machines/workloads/oracle/configure-oracle-dataguard#configure-oraclevm1-primary)
+* [Oracle 19c RMAN Backup And Restore](https://youtu.be/XEv5oWK1IuA)
 
 ### Solution - Spoilerwarning
 
