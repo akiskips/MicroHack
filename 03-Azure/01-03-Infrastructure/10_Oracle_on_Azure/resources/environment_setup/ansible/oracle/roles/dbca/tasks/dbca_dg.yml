@@ -130,6 +130,27 @@
     become: true
     become_user: root
 
+
+  - name: Create Oracle database user "oracle"
+    when: inventory_hostname in groups['ora-x1']
+    become: true
+    become_user: oracle
+    shell: |
+      sqlplus -S / as sysdba <<EOF
+      WHENEVER SQLERROR EXIT FAILURE
+      -- Create the user with the password provided by pass_raw variable
+      CREATE USER {{ oracle_user }} IDENTIFIED BY "{{ oracle_pass_raw }}";
+      -- Grant basic privileges to allow connection and resource usage
+      GRANT CONNECT, RESOURCE TO oracle;
+      EXIT;
+      EOF
+    args:
+      chdir: /home/oracle
+    register: create_oracle_user_output
+
+
+
+
 - name: Execute SQL script on remote Oracle database
   when: inventory_hostname in groups['ora-x1']
   become: true
