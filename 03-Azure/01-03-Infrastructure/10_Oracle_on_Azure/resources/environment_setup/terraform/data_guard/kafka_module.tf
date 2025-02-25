@@ -1,6 +1,3 @@
-data "azurerm_client_config" "current1" {}
-
-
 module "vm_kafka" {
   source = "./modules/compute"
 
