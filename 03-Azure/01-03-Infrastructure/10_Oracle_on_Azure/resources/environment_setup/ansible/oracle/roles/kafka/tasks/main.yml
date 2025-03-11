@@ -1,63 +1,20 @@
-- name: Install Docker on Debian 12
-  when: inventory_hostname in groups['ora-x1']
-  become: true
-  tasks:
-    - name: Update apt cache
-      ansible.builtin.apt:
-        update_cache: yes
-
-    - name: Install packages required for apt over HTTPS
-      ansible.builtin.apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - gnupg
-          - lsb-release
-        state: present
-
-    - name: Add Docker's official GPG key
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
-
-    - name: Add Docker APT repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_lsb.codename }} stable"
-        state: present
-
-    - name: Update apt cache after adding Docker repo
-      ansible.builtin.apt:
-        update_cache: yes
-
-    - name: Install Docker Engine and related packages
-      ansible.builtin.apt:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-        state: latest
-
-    - name: Ensure Docker service is started and enabled
-      ansible.builtin.service:
-        name: docker
-        state: started
-        enabled: yes
+---
 
 - name: Copy files to remote server
   when: inventory_hostname in groups['ora-x3']
   become: true
   block:
-    - name: Copy sink connector script to remote server
+    - name: Copy sink connector scriplst to remote server
       ansible.builtin.copy:
-        src: ../../../../../challenge-3/kafka/package/challenge3.tar
-        dest: /
+        src: ../../../../../challenge-3/package/challenge3.tar
+        dest: /challenge3.tar
         owner: oracle
         mode: '0644'
 
 - name: Unarchive the zip file on remote VM
+  when: inventory_hostname in groups['ora-x3']
   ansible.builtin.unarchive:
-    src: /path/on/remote/file.zip
-    dest: /destination/directory/
+    src: /challenge3.tar
+    dest: /
     remote_src: yes
 
